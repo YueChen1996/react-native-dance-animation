@@ -1,0 +1,42 @@
+<html>
+  <button onclick="getNextMovie()">get next movie</button>
+  <button onclick="getCurrentMovie()">get current movie</button>
+  <!-- <button onclick="rateMovie()">rate movie</button> -->
+</html>
+<script>
+  let movie = {};
+
+  async function getCurrentMovie() {
+    console.log(movie);
+  }
+
+  async function getNextMovie() {
+    const response = await fetch('http://localhost:3000/nextMovie/1', {
+      method: 'GET',
+      mode: 'cors',
+      // credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(data => (movie = data))
+      .catch(err => console.log(err));
+  }
+
+  async function rateMovie() {
+    await fetch('http://localhost:3000/rateMovie', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: 1,
+        movieId: 'tt1130884',
+        action: 'like',
+      }),
+    });
+  }
+</script>
